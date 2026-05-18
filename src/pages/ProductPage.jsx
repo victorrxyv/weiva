@@ -25,7 +25,9 @@ export default function ProductPage() {
   const favoritado = isFavorito(PRODUTO.id)
   const { addItem } = useCart()
 
-  const desconto = Math.round((1 - PRODUTO.preco / PRODUTO.precoOriginal) * 100)
+  const desconto = PRODUTO.precoOriginal
+    ? Math.round((1 - PRODUTO.preco / PRODUTO.precoOriginal) * 100)
+    : null
 
   function handleAddCart() {
     addItem({ ...PRODUTO, qtd })
@@ -42,7 +44,7 @@ export default function ProductPage() {
         <section className="galeria" aria-label="Imagens do produto">
           <figure className="galeria-main">
             <img src={PRODUTO.img} alt={PRODUTO.nome} />
-            <mark className="galeria-badge" aria-label={`Desconto de ${desconto}%`}>-{desconto}%</mark>
+          {desconto && <mark className="galeria-badge" aria-label={`Desconto de ${desconto}%`}>-{desconto}%</mark>}
           </figure>
         </section>
 
@@ -84,10 +86,12 @@ export default function ProductPage() {
               <p>Oferta do dia</p>
             </div>
 
-            <del className="preco-old">R$ {PRODUTO.precoOriginal.toFixed(2).replace('.', ',')}</del>
+            {PRODUTO.precoOriginal && (
+              <del className="preco-old">R$ {PRODUTO.precoOriginal.toFixed(2).replace('.', ',')}</del>
+            )}
             <div className="preco-main">
               <strong className="preco-valor">R$ {PRODUTO.preco.toFixed(2).replace('.', ',')}</strong>
-              <span className="preco-desconto">{desconto}% OFF</span>
+              {desconto && <span className="preco-desconto">{desconto}% OFF</span>}
             </div>
             <p className="preco-parcelado">
               Em <strong>6x de R$ {(PRODUTO.preco / 6).toFixed(2).replace('.', ',')}</strong> sem juros
