@@ -1,0 +1,255 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Header from '../components/Header.jsx'
+import NavMobileBottom from '../components/NavMobileBottom.jsx'
+
+const PEDIDOS = [
+  { num: '#10234', nome: 'Dipirona 500mg + Vitamina C', farmacia: 'Pague Menos', data: '10 mai 2026', itens: 2, valor: 43.20, status: 'entregue' },
+  { num: '#10231', nome: 'Vitamina C 1g + Dipirona', farmacia: 'Farmácia do Povo', data: '2 mai 2026', itens: 3, valor: 31.70, status: 'caminho' },
+  { num: '#10228', nome: 'Protetor Solar FPS 50', farmacia: 'Droga Raia', data: '18 abr 2026', itens: 1, valor: 54.90, status: 'entregue' },
+]
+const STATUS_LABEL = { entregue: 'Entregue', caminho: 'A caminho', cancelado: 'Cancelado' }
+const STATUS_CLASS = { entregue: 'badge-entregue', caminho: 'badge-caminho', cancelado: 'badge-cancelado' }
+
+const MENU = [
+  { id: 'dados',      icon: 'person',       label: 'Meus dados' },
+  { id: 'enderecos',  icon: 'location_on',  label: 'Endereço' },
+  { id: 'pedidos',    icon: 'receipt_long', label: 'Pedidos' },
+  { id: 'cartoes',    icon: 'credit_card',  label: 'Cartões' },
+  { id: 'config',     icon: 'settings',     label: 'Configurações' },
+]
+
+const [FORM_INIT] = [{ nome: '', sobrenome: '', email: '', cpf: '', genero: '', nascimento: '', telefone: '' }]
+
+export default function UsuarioPage() {
+  const [secao, setSecao]           = useState('dados')
+  const [mobileSub, setMobileSub]   = useState(null) // null = lista mobile principal
+  const [form, setForm]             = useState(FORM_INIT)
+  const navigate = useNavigate()
+
+  function handleChange(e) { setForm(p => ({ ...p, [e.target.name]: e.target.value })) }
+
+  /* ─── painel de conteúdo (shared desktop + mobile-sub) ─── */
+  function Conteudo() {
+    const s = mobileSub ?? secao
+
+    if (s === 'dados') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Meus dados</h2>
+        <form className="up-dados-form" onSubmit={e => { e.preventDefault(); alert('Salvo!') }}>
+          <div className="up-row2">
+            <div className="up-field"><label>NOME</label><input type="text" name="nome" value={form.nome} onChange={handleChange} /></div>
+            <div className="up-field"><label>SOBRENOME</label><input type="text" name="sobrenome" value={form.sobrenome} onChange={handleChange} /></div>
+          </div>
+          <div className="up-field"><label>E-MAIL</label><input type="email" name="email" value={form.email} onChange={handleChange} /></div>
+          <div className="up-row2">
+            <div className="up-field"><label>CPF</label><input type="text" name="cpf" value={form.cpf} onChange={handleChange} /></div>
+            <div className="up-field">
+              <label>GÊNERO</label>
+              <select name="genero" value={form.genero} onChange={handleChange}>
+                <option value="">Selecionar</option>
+                <option>Masculino</option><option>Feminino</option>
+                <option>Outro</option><option>Prefiro não informar</option>
+              </select>
+            </div>
+          </div>
+          <div className="up-row2">
+            <div className="up-field"><label>DATA DE NASCIMENTO</label><input type="date" name="nascimento" value={form.nascimento} onChange={handleChange} /></div>
+            <div className="up-field"><label>TELEFONE / WHATSAPP</label><input type="tel" name="telefone" value={form.telefone} onChange={handleChange} /></div>
+          </div>
+          <button className="up-salvar" type="submit">Salvar alterações</button>
+        </form>
+      </div>
+    )
+
+    if (s === 'enderecos') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Endereços</h2>
+        <div className="up-endereco-card">
+          <span className="material-symbols-outlined up-item-icon">home</span>
+          <div className="up-endereco-info">
+            <p className="up-endereco-titulo">Casa <span className="up-badge-principal">Principal</span></p>
+            <p className="up-endereco-desc">Rua das Flores, 142 - Meireles, Fortaleza - CE, 60165-060</p>
+          </div>
+          <button className="up-btn-icon"><span className="material-symbols-outlined">edit</span></button>
+        </div>
+        <button className="up-adicionar-btn"><span className="material-symbols-outlined">add_location_alt</span> Adicionar novo endereço</button>
+      </div>
+    )
+
+    if (s === 'pedidos') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Pedidos</h2>
+        {PEDIDOS.map(p => (
+          <div key={p.num} className="up-pedido-row">
+            <div className="up-pedido-icon"><span className="material-symbols-outlined">medication</span></div>
+            <div className="up-pedido-info">
+              <p className="up-pedido-nome">{p.nome} · {p.farmacia}</p>
+              <p className="up-pedido-sub">{p.data} · {p.itens} {p.itens === 1 ? 'item' : 'itens'} · R$ {p.valor.toFixed(2).replace('.', ',')}</p>
+            </div>
+            <span className={`badge-status ${STATUS_CLASS[p.status]}`}>{STATUS_LABEL[p.status]}</span>
+          </div>
+        ))}
+      </div>
+    )
+
+    if (s === 'cartoes') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Cartões</h2>
+        {[
+          { nome: 'Visa · final 4521', detalhe: '**** 4521 · Val. 08/27', principal: true },
+          { nome: 'Mastercard · final 8834', detalhe: '**** 8834 · Val. 02/26', principal: false },
+        ].map((c, i) => (
+          <div key={i} className="up-endereco-card">
+            <span className="material-symbols-outlined up-item-icon">credit_card</span>
+            <div className="up-endereco-info">
+              <p className="up-endereco-titulo">{c.nome} {c.principal && <span className="up-badge-principal">Principal</span>}</p>
+              <p className="up-endereco-desc">{c.detalhe}</p>
+            </div>
+            <button className="up-btn-icon"><span className="material-symbols-outlined">edit</span></button>
+          </div>
+        ))}
+        <button className="up-adicionar-btn"><span className="material-symbols-outlined">add_card</span> Adicionar novo cartão</button>
+      </div>
+    )
+
+    if (s === 'config') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Configurações</h2>
+        {[
+          { icon: 'notifications', label: 'Notificações por e-mail',     desc: 'Receba atualizações dos seus pedidos' },
+          { icon: 'sms',           label: 'Notificações por SMS',        desc: 'Alertas sobre entrega e promoções' },
+          { icon: 'local_offer',   label: 'Ofertas personalizadas',      desc: 'Promoções baseadas no seu histórico' },
+        ].map((c, i) => (
+          <div key={i} className="up-config-row">
+            <span className="material-symbols-outlined up-item-icon">{c.icon}</span>
+            <div className="up-config-text">
+              <p className="up-config-label">{c.label}</p>
+              <p className="up-config-desc">{c.desc}</p>
+            </div>
+            <label className="toggle-switch">
+              <input type="checkbox" defaultChecked={i === 0} />
+              <span className="toggle-slider" />
+            </label>
+          </div>
+        ))}
+      </div>
+    )
+
+    return null
+  }
+
+  /* ─── MOBILE: lista principal ─── */
+  const MobileLista = () => (
+    <>
+      <header className="perfil-header-top">
+        <button className="perfil-back" onClick={() => navigate(-1)}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1>Conta</h1>
+      </header>
+      <div className="perfil-hero">
+        <div className="perfil-avatar-wrap">
+          <img src="/img/weiva/default-avatar.jpg" alt="avatar" className="perfil-avatar" />
+        </div>
+        <p className="perfil-nome">Usuario</p>
+      </div>
+      <div className="perfil-lista">
+        <p className="perfil-grupo-label">MINHA CONTA</p>
+        {MENU.map(m => (
+          <button key={m.id} className="perfil-item" onClick={() => setMobileSub(m.id)}>
+            <span className="material-symbols-outlined perfil-item-icon">{m.icon}</span>
+            <span className="perfil-item-label">{m.label}</span>
+            <span className="material-symbols-outlined perfil-chevron">chevron_right</span>
+          </button>
+        ))}
+        <p className="perfil-grupo-label">NEGÓCIOS</p>
+        <button className="perfil-item destaque" onClick={() => navigate('/admin')}>
+          <span className="material-symbols-outlined perfil-item-icon">storefront</span>
+          <span className="perfil-item-label">Seja um parceiro</span>
+          <span className="material-symbols-outlined perfil-chevron">chevron_right</span>
+        </button>
+        <div className="perfil-divisor" />
+        <button className="perfil-item sair" onClick={() => navigate('/login')}>
+          <span className="material-symbols-outlined perfil-item-icon">logout</span>
+          <span className="perfil-item-label">Sair</span>
+          <span className="material-symbols-outlined perfil-chevron">chevron_right</span>
+        </button>
+      </div>
+      <NavMobileBottom />
+    </>
+  )
+
+  /* ─── MOBILE: subpágina ─── */
+  const MobileSub = () => (
+    <>
+      <header className="perfil-header-top">
+        <button className="perfil-back" onClick={() => setMobileSub(null)}>
+          <span className="material-symbols-outlined">arrow_back</span>
+        </button>
+        <h1>{MENU.find(m => m.id === mobileSub)?.label ?? 'Conta'}</h1>
+      </header>
+      <div className="up-mobile-sub-wrap"><Conteudo /></div>
+      <NavMobileBottom />
+    </>
+  )
+
+  return (
+    <>
+      {/* ══════════ DESKTOP ══════════ */}
+      <div className="up-desktop">
+        <Header />
+
+        {/* Topo: avatar + nome + editar foto */}
+        <div className="up-top-bar">
+          <div className="up-top-inner">
+            <img src="/img/weiva/default-avatar.jpg" alt="avatar" className="up-top-avatar" />
+            <p className="up-top-nome">Usuario</p>
+            <button className="up-editar-foto-btn">
+              <span className="material-symbols-outlined">edit</span>
+              Editar foto
+            </button>
+          </div>
+        </div>
+
+        {/* Layout 2 colunas */}
+        <div className="up-layout">
+
+          {/* SIDEBAR */}
+          <aside className="up-sidebar">
+            {MENU.map(m => (
+              <button
+                key={m.id}
+                className={`up-sidebar-item ${secao === m.id ? 'ativo' : ''}`}
+                onClick={() => setSecao(m.id)}
+              >
+                <span className="material-symbols-outlined">{m.icon}</span>
+                {m.label}
+              </button>
+            ))}
+            <hr className="up-sidebar-hr" />
+            <button className="up-sidebar-item destaque" onClick={() => navigate('/admin')}>
+              <span className="material-symbols-outlined">storefront</span>
+              Seja um parceiro
+            </button>
+            <hr className="up-sidebar-hr" />
+            <button className="up-sidebar-item sair" onClick={() => navigate('/login')}>
+              <span className="material-symbols-outlined">logout</span>
+              Sair
+            </button>
+          </aside>
+
+          {/* CONTEÚDO */}
+          <main className="up-main">
+            <Conteudo />
+          </main>
+        </div>
+      </div>
+
+      {/* ══════════ MOBILE ══════════ */}
+      <div className="up-mobile">
+        {mobileSub ? <MobileSub /> : <MobileLista />}
+      </div>
+    </>
+  )
+}

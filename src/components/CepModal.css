@@ -1,0 +1,111 @@
+.cep-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 600;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+}
+
+.cep-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cep-modal {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 36px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cep-modal-overlay.active .cep-modal {
+  transform: translateY(0);
+}
+
+.cep-modal-handle {
+  width: 40px; height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.cep-modal h3 {
+  font-size: 17px; font-weight: 700; color: #111; margin-bottom: 4px;
+}
+
+.cep-modal > p {
+  font-size: 13px; color: #777; margin-bottom: 18px;
+}
+
+.cep-input-row {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1.5px solid #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.cep-input-row .cep-icon {
+  padding: 0 10px 0 14px;
+  color: #aaa; font-size: 20px;
+  display: flex; align-items: center;
+}
+
+.cep-input-row input {
+  flex: 1; border: none; outline: none;
+  font-size: 14px; padding: 10px 0; background: transparent;
+}
+
+.cep-input-row button {
+  background: var(--red); color: #fff;
+  border: none; padding: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+
+.cep-input-row button:hover { background: var(--red-hover); }
+
+.cep-divider {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 12px; color: #bbb; font-size: 12px;
+}
+
+.cep-divider::before, .cep-divider::after {
+  content: ''; flex: 1; height: 1px; background: #e8e8e8;
+}
+
+.cep-geo-btn {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: #fff;
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cep-geo-btn:hover { background: var(--red); color: #fff; }
+.cep-geo-btn .material-symbols-outlined { font-size: 20px; }
+
+.cep-feedback {
+  margin-top: 12px; font-size: 13px;
+  text-align: center; color: #555; min-height: 18px;
+}
+
+.cep-feedback.error { color: var(--red); }
+.cep-feedback.success { color: #2a9d2a; }

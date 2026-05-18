@@ -1,0 +1,64 @@
+.farmacias-list {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.farmacia-card {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  padding: 18px 12px 14px;
+  flex: 0 0 calc(16.666% - 13px);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.farmacia-card:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.farmacia-logo-wrap {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  border: 1px solid #f0f0f0;
+  background-color: #fafafa;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.farmacia-logo-wrap img {
+  width: 100%; height: 100%;
+  border-radius: 100%;
+  object-fit: contain;
+}
+
+.farmacia-nome {
+  font-size: 13px; font-weight: 700; color: #111; text-align: center;
+}
+
+.farmacia-avaliacao {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 12px; font-weight: 600; color: #555;
+}
+
+.farmacia-avaliacao .star {
+  font-size: 10px; display: flex; align-items: center; color: #f5a623;
+}
+
+@media (max-width: 768px) {
+  .farmacias-list {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    padding-bottom: 20px;
+  }
+  .farmacia-card { flex: 0 0 110px; flex-shrink: 0; }
+}
