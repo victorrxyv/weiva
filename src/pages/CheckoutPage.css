@@ -444,49 +444,38 @@
     border-top: 2px solid #eee;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
     border-radius: 20px 20px 0 0;
+    overflow: hidden;
   }
 
   .ck-resumo-mobile-details {
-    padding: 0;
+    border-bottom: 1px solid #f0f0f0;
   }
 
   .ck-resumo-mobile-summary {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 14px 16px;
+    gap: 8px;
+    padding: 10px 16px;
     cursor: pointer;
     list-style: none;
     user-select: none;
+    background: #f9fafb;
   }
 
   .ck-resumo-mobile-summary::-webkit-details-marker { display: none; }
 
-  .ck-resumo-mobile-summary-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .ck-resumo-mobile-ver {
     flex: 1;
-    font-size: 14px;
-    font-weight: 800;
-    color: #111;
-  }
-
-  .ck-resumo-mobile-summary-left .material-symbols-outlined {
-    font-size: 20px;
-    color: var(--red);
-  }
-
-  .ck-resumo-mobile-total {
-    font-size: 16px;
-    font-weight: 800;
-    color: var(--red);
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
   }
 
   .ck-resumo-chevron {
-    font-size: 20px;
-    color: #aaa;
-    transition: transform 0.2s;
+    font-size: 18px;
+    color: #999;
+    transition: transform 0.25s;
+    flex-shrink: 0;
   }
 
   details[open] .ck-resumo-chevron {
@@ -494,8 +483,24 @@
   }
 
   .ck-resumo-mobile-body {
-    padding: 0 16px 16px;
+    padding: 12px 16px;
     border-top: 1px solid #eee;
+    background: #fff;
+  }
+
+  /* Total + botão sempre visíveis */
+  .ck-resumo-mobile-footer {
+    padding: 12px 16px 16px;
+  }
+
+  .ck-resumo-mobile-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 10px;
   }
 
   .ck-field-group { grid-template-columns: 1fr; }
