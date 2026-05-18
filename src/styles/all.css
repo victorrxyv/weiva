@@ -1288,23 +1288,59 @@ button.login:hover { transform: scale(1.05); background: red; }
 /* RESUMO */
 .resumo-col { position: sticky; top: 80px; }
 
-.resumo-card {}
-
-.resumo-row {
-  display: flex; justify-content: space-between;
-  font-size: 14px; margin-bottom: 10px;
+.resumo-card {
+  background: #111 !important;
+  border-color: #222 !important;
+  padding: 0;
+  overflow: hidden;
 }
 
-.resumo-row.desconto { color: #16a34a; }
+.resumo-titulo {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #666;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid #222;
+}
 
-.resumo-divider { border: none; border-top: 1px solid #eee; margin: 14px 0; }
+.resumo-body {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resumo-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 14px; color: #bbb;
+}
+
+.resumo-row.desconto { color: #4ade80; font-weight: 600; }
+.resumo-row.desconto span:last-child { color: #4ade80; }
+
+.resumo-divider { border: none; border-top: 1px solid #222; margin: 4px 0; }
 
 .resumo-row.total {
-  font-size: 18px; margin-bottom: 6px;
+  font-size: 16px; font-weight: 800; color: #fff; margin-top: 2px;
+}
+
+.resumo-row.total span:last-child {
+  color: var(--red); font-size: 18px;
 }
 
 .parcelado-info {
-  font-size: 12px; color: #aaa; margin-bottom: 20px; text-align: center;
+  font-size: 12px; color: #555; margin-top: 2px; text-align: right;
+}
+
+.resumo-footer {
+  padding: 0 20px 20px;
+}
+
+.aviso-selecao {
+  font-size: 12px; color: var(--red);
+  text-align: center; margin-bottom: 10px; font-weight: 600;
 }
 
 .btn-checkout {
@@ -1342,10 +1378,36 @@ button.login:hover { transform: scale(1.05); background: red; }
 @media (max-width: 768px) {
   .cart-page {
     grid-template-columns: 1fr;
-    padding: 16px 12px 120px;
+    padding: 16px 12px 260px;
   }
 
-  .resumo-col { position: static; }
+  .resumo-col {
+    position: fixed;
+    bottom: 56px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0 0 env(safe-area-inset-bottom);
+  }
+
+  .resumo-col .card.resumo-card {
+    background: #fff !important;
+    border-color: #eee !important;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+  }
+
+  .resumo-titulo { color: #888 !important; border-bottom-color: #eee !important; }
+  .resumo-row { color: #444 !important; }
+  .resumo-row.total { color: #111 !important; }
+  .resumo-row.total span:last-child { color: var(--red) !important; }
+  .resumo-divider { border-top-color: #eee !important; }
+  .resumo-row.desconto { color: #16a34a !important; }
+  .resumo-row.desconto span:last-child { color: #16a34a !important; }
+  .parcelado-info { color: #aaa !important; }
 }
 .categoria-layout {
   max-width: 1040px;
