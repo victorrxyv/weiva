@@ -1629,22 +1629,47 @@ button.login:hover { transform: scale(1.05); background: red; }
   border: none; border-radius: 14px;
   font-size: 15px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  cursor: pointer; transition: background 0.2s;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-.btn-checkout-prod:hover { background: var(--red-hover); }
+.btn-checkout-prod:hover {
+  background: var(--red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
+}
 
-/* Adicionar ao carrinho = outline */
+.btn-checkout-prod:active { transform: translateY(0); box-shadow: none; }
+
+/* Adicionar ao carrinho = outline / verde quando adicionado */
 .btn-comprar {
   width: 100%; padding: 14px;
   background: white; color: var(--red);
   border: 2px solid var(--red); border-radius: 14px;
   font-size: 15px; font-weight: 700;
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  cursor: pointer; transition: all 0.2s;
+  cursor: pointer;
+  transition: all 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-.btn-comprar:hover { background: #fff0f0; }
+.btn-comprar:hover {
+  background: #fff0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.2);
+}
+
+.btn-comprar:active { transform: translateY(0); box-shadow: none; }
+
+.btn-comprar.adicionado {
+  background: #16a34a; color: white;
+  border-color: #16a34a;
+}
+
+.btn-comprar.adicionado:hover {
+  background: #15803d;
+  border-color: #15803d;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
+}
 
 /* VENDIDO POR */
 .vendido-por-wrap {
@@ -1692,14 +1717,22 @@ button.login:hover { transform: scale(1.05); background: red; }
 
 .btn-ver-farmacia {
   width: 100%; padding: 10px;
-  background: white; color: #555;
-  border: 1.5px solid #ddd; border-radius: 12px;
+  background: var(--red); color: white;
+  border: 1.5px solid var(--red); border-radius: 12px;
   font-size: 13px; font-weight: 600;
   display: flex; align-items: center; justify-content: center; gap: 6px;
-  cursor: pointer; transition: all 0.2s; font-family: inherit;
+  cursor: pointer; font-family: inherit;
+  transition: all 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-.btn-ver-farmacia:hover { border-color: var(--red); color: var(--red); }
+.btn-ver-farmacia:hover {
+  background: var(--red-hover);
+  border-color: var(--red-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+}
+
+.btn-ver-farmacia:active { transform: translateY(0); box-shadow: none; }
 .btn-ver-farmacia .material-symbols-outlined { font-size: 18px; }
 
 /* FORMAS DE PAGAMENTO */

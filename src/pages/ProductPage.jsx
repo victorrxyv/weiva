@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import { useCart } from '../contexts/CartContext.jsx'
-import NavMobileBottom from '../components/NavMobileBottom.jsx'
 
 const PRODUTO = {
   id: 99,
@@ -19,12 +18,15 @@ const PRODUTO = {
 export default function ProductPage() {
   const [qtd, setQtd] = useState(1)
   const [favoritado, setFavoritado] = useState(false)
+  const [adicionado, setAdicionado] = useState(false)
   const { addItem } = useCart()
 
   const desconto = Math.round((1 - PRODUTO.preco / PRODUTO.precoOriginal) * 100)
 
   function handleAddCart() {
     addItem({ ...PRODUTO, qtd })
+    setAdicionado(true)
+    setTimeout(() => setAdicionado(false), 2000)
   }
 
   return (
@@ -108,9 +110,9 @@ export default function ProductPage() {
                   Comprar agora
                 </button>
               </Link>
-              <button className="btn-comprar" onClick={handleAddCart}>
-                <span className="material-symbols-outlined">shopping_bag</span>
-                Adicionar ao carrinho
+              <button className={`btn-comprar${adicionado ? ' adicionado' : ''}`} onClick={handleAddCart}>
+                <span className="material-symbols-outlined">{adicionado ? 'check_circle' : 'shopping_bag'}</span>
+                {adicionado ? '✔ Adicionado' : 'Adicionar ao carrinho'}
               </button>
             </div>
 
@@ -183,7 +185,6 @@ export default function ProductPage() {
         </div>
       </main>
 
-      <NavMobileBottom />
     </>
   )
 }
