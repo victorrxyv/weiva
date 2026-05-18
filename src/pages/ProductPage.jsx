@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import { useCart } from '../contexts/CartContext.jsx'
 import { useFavoritos } from '../contexts/FavoritosContext.jsx'
 
-const PRODUTO = {
+const PRODUTO_DEFAULT = {
   id: 99,
   img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAk-HADJGkID3Pu51cerTLpBlqx16ecxfaEg&s',
   marca: 'Teuto',
@@ -17,6 +17,8 @@ const PRODUTO = {
 }
 
 export default function ProductPage() {
+  const { state } = useLocation()
+  const PRODUTO = state?.produto ?? PRODUTO_DEFAULT
   const [qtd, setQtd] = useState(1)
   const [adicionado, setAdicionado] = useState(false)
   const { toggleFavorito, isFavorito } = useFavoritos()

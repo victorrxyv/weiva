@@ -41,7 +41,7 @@ export default function ProductCard({
   }
 
   return (
-    <Link to={to}>
+    <Link to={to} state={{ produto: { id, img, marca, nome, dosagem, farmacia, preco, precoOriginal, receita } }}>
       <div className={`prod-card ${adicionado ? 'card-adicionado' : ''}`}>
         <div className="img-wrap">
           <img className="prod-img" src={img} alt={nome} />
