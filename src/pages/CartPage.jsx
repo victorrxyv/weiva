@@ -182,46 +182,38 @@ export default function CartPage() {
           {/* RESUMO */}
           <aside className="resumo-col">
             <div className="card resumo-card">
-              <p className="resumo-titulo">Resumo do pedido</p>
-
-              <div className="resumo-body">
-                <div className="resumo-row">
-                  <span>Subtotal ({selectedTotalItens} {selectedTotalItens === 1 ? 'item' : 'itens'})</span>
-                  <span>{fmt(selectedSubtotal)}</span>
-                </div>
-                {selectedDescontos > 0 && (
-                  <div className="resumo-row desconto">
-                    <span>Descontos</span>
-                    <span>− {fmt(selectedDescontos)}</span>
-                  </div>
-                )}
-                <div className="resumo-row">
-                  <span>Entrega</span>
-                  <span>{selectedEntregaTotal === 0 ? 'Grátis' : fmt(selectedEntregaTotal)}</span>
-                </div>
-                <hr className="resumo-divider" />
-                <div className="resumo-row total">
-                  <span>Total</span>
-                  <span>{fmt(selectedTotal)}</span>
-                </div>
-                {selectedTotalItens > 0 && (
-                  <p className="parcelado-info">
-                    Em <strong>6x de {fmt(selectedTotal / 6)}</strong> sem juros
-                  </p>
-                )}
+              <p className="section-label" style={{ marginBottom: 16 }}>Resumo do pedido</p>
+              <div className="resumo-row">
+                <span>Subtotal ({selectedTotalItens} {selectedTotalItens === 1 ? 'item' : 'itens'})</span>
+                <span>{fmt(selectedSubtotal)}</span>
               </div>
-
-              <div className="resumo-footer">
-                {selectedTotalItens === 0 && (
-                  <p className="aviso-selecao">Selecione ao menos um produto</p>
-                )}
-                <Link to="/checkout">
-                  <button className="btn-checkout" disabled={selectedTotalItens === 0}>
-                    <span className="btn-checkout-icon">⚡</span>
-                    Finalizar pedido
-                  </button>
-                </Link>
+              {selectedDescontos > 0 && (
+                <div className="resumo-row desconto">
+                  <span>Descontos</span>
+                  <span>− {fmt(selectedDescontos)}</span>
+                </div>
+              )}
+              <div className="resumo-row">
+                <span>Entrega</span>
+                <span>{selectedEntregaTotal === 0 ? 'Grátis' : fmt(selectedEntregaTotal)}</span>
               </div>
+              <hr className="resumo-divider" />
+              <div className="resumo-row total">
+                <strong>Total</strong>
+                <strong>{fmt(selectedTotal)}</strong>
+              </div>
+              <p className="parcelado-info">
+                Em <strong>6x de {fmt(selectedTotal / 6)}</strong> sem juros
+              </p>
+              {selectedTotalItens === 0 && (
+                <p className="aviso-selecao">Selecione ao menos um produto</p>
+              )}
+              <Link to="/checkout">
+                <button className="btn-checkout" disabled={selectedTotalItens === 0}>
+                  <span className="material-symbols-outlined">lock</span>
+                  Finalizar compra
+                </button>
+              </Link>
             </div>
           </aside>
         </div>

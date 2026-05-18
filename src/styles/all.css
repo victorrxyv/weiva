@@ -1288,59 +1288,23 @@ button.login:hover { transform: scale(1.05); background: red; }
 /* RESUMO */
 .resumo-col { position: sticky; top: 80px; }
 
-.resumo-card {
-  background: #111 !important;
-  border-color: #222 !important;
-  padding: 0;
-  overflow: hidden;
-}
-
-.resumo-titulo {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #666;
-  padding: 16px 20px 14px;
-  border-bottom: 1px solid #222;
-}
-
-.resumo-body {
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+.resumo-card {}
 
 .resumo-row {
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 14px; color: #bbb;
+  display: flex; justify-content: space-between;
+  font-size: 14px; margin-bottom: 10px;
 }
 
-.resumo-row.desconto { color: #4ade80; font-weight: 600; }
-.resumo-row.desconto span:last-child { color: #4ade80; }
+.resumo-row.desconto { color: #16a34a; }
 
-.resumo-divider { border: none; border-top: 1px solid #222; margin: 4px 0; }
+.resumo-divider { border: none; border-top: 1px solid #eee; margin: 14px 0; }
 
 .resumo-row.total {
-  font-size: 16px; font-weight: 800; color: #fff; margin-top: 2px;
-}
-
-.resumo-row.total span:last-child {
-  color: var(--red); font-size: 18px;
+  font-size: 18px; margin-bottom: 6px;
 }
 
 .parcelado-info {
-  font-size: 12px; color: #555; margin-top: 2px; text-align: right;
-}
-
-.resumo-footer {
-  padding: 0 20px 20px;
-}
-
-.aviso-selecao {
-  font-size: 12px; color: var(--red);
-  text-align: center; margin-bottom: 10px; font-weight: 600;
+  font-size: 12px; color: #aaa; margin-bottom: 20px; text-align: center;
 }
 
 .btn-checkout {
@@ -1391,23 +1355,12 @@ button.login:hover { transform: scale(1.05); background: red; }
   }
 
   .resumo-col .card.resumo-card {
-    background: #fff !important;
-    border-color: #eee !important;
     border-radius: 0;
     border-left: none;
     border-right: none;
     border-bottom: none;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
   }
-
-  .resumo-titulo { color: #888 !important; border-bottom-color: #eee !important; }
-  .resumo-row { color: #444 !important; }
-  .resumo-row.total { color: #111 !important; }
-  .resumo-row.total span:last-child { color: var(--red) !important; }
-  .resumo-divider { border-top-color: #eee !important; }
-  .resumo-row.desconto { color: #16a34a !important; }
-  .resumo-row.desconto span:last-child { color: #16a34a !important; }
-  .parcelado-info { color: #aaa !important; }
 }
 .categoria-layout {
   max-width: 1040px;
