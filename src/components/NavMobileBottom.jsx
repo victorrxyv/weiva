@@ -4,7 +4,7 @@ import { useCart } from '../contexts/CartContext.jsx'
 const NAV_ITEMS = [
   { to: '/',         icon: 'home',           label: 'Início'   },
   { to: '/categoria', icon: 'dashboard',     label: 'Categoria' },
-  { to: '/ofertas',  icon: 'shoppingmode',   label: 'Ofertas'  },
+  { to: '/categoria?cat=ofertas',  icon: 'shoppingmode',   label: 'Ofertas'  },
   { to: '/carrinho', icon: 'shopping_cart',  label: 'Carrinho', badge: true },
   { to: '/perfil',   icon: 'account_circle', label: 'Conta'    },
 ]
@@ -14,8 +14,9 @@ export default function NavMobileBottom() {
   const { totalItens } = useCart()
 
   function isAtivo(to) {
-    if (to === '/') return pathname === '/'
-    return pathname.startsWith(to)
+    const path = to.split('?')[0]
+    if (path === '/') return pathname === '/'
+    return pathname.startsWith(path)
   }
 
   return (
