@@ -377,11 +377,11 @@
     box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
   }
 
-  .resumo-titulo { color: #888; border-bottom-color: #eee; }
-  .resumo-row { color: #444; }
-  .resumo-row.total { color: #111; }
-  .resumo-divider { border-top-color: #eee; }
-  .resumo-row.desconto { color: #16a34a; }
-  .resumo-row.desconto span:last-child { color: #16a34a; }
-  .parcelado-info { color: #aaa; }
+  .resumo-titulo { color: #888 !important; border-bottom-color: #eee !important; }
+  .resumo-row { color: #444 !important; }
+  .resumo-row.total { color: #111 !important; }
+  .resumo-divider { border-top-color: #eee !important; }
+  .resumo-row.desconto { color: #16a34a !important; }
+  .resumo-row.desconto span:last-child { color: #16a34a !important; }
+  .parcelado-info { color: #aaa !important; }
 }
