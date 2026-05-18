@@ -513,3 +513,43 @@
 
   .ck-product-nome { font-size: 12px; }
 }
+
+/* ── carrinho vazio ── */
+.ck-card-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.ck-empty-icon {
+  font-size: 48px;
+  color: #ddd;
+}
+
+.ck-empty-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #aaa;
+}
+
+.ck-empty-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.ck-empty-btn:hover { background: var(--red-hover); }

@@ -122,40 +122,48 @@ export default function CheckoutPage() {
         <div className="ck-left">
 
           {/* PRODUTOS */}
-          <section className="ck-card">
-            <div className="ck-card-head">
-              <div className="ck-card-title">
-                <span className="material-symbols-outlined">shopping_bag</span>
-                Produtos Selecionados
+          {cartItems.length === 0 ? (
+            <section className="ck-card ck-card-empty">
+              <span className="material-symbols-outlined ck-empty-icon">shopping_cart</span>
+              <p className="ck-empty-title">Seu carrinho está vazio</p>
+              <Link to="/" className="ck-empty-btn">Continuar comprando</Link>
+            </section>
+          ) : (
+            <section className="ck-card">
+              <div className="ck-card-head">
+                <div className="ck-card-title">
+                  <span className="material-symbols-outlined">shopping_bag</span>
+                  Produtos Selecionados
+                </div>
+                <span className="ck-badge">{totalItens} {totalItens === 1 ? 'item' : 'itens'}</span>
               </div>
-              <span className="ck-badge">{totalItens} {totalItens === 1 ? 'item' : 'itens'}</span>
-            </div>
-            <ul className="ck-product-list">
-              {cartItems.map(item => (
-                <li key={item.id} className="ck-product-item">
-                  <img className="ck-product-img" src={item.img} alt={item.nome} />
-                  <div className="ck-product-info">
-                    <p className="ck-product-nome">{item.nome}</p>
-                    <p className="ck-product-sub">
-                      {item.dosagem} · {item.marca}
-                    </p>
-                    <div className="ck-qty">
-                      <button type="button" onClick={() => alterarQtd(item.id, -1)}>-</button>
-                      <span>{item.qtd}</span>
-                      <button type="button" onClick={() => alterarQtd(item.id, 1)}>+</button>
+              <ul className="ck-product-list">
+                {cartItems.map(item => (
+                  <li key={item.id} className="ck-product-item">
+                    <img className="ck-product-img" src={item.img} alt={item.nome} />
+                    <div className="ck-product-info">
+                      <p className="ck-product-nome">{item.nome}</p>
+                      <p className="ck-product-sub">
+                        {item.dosagem} · {item.marca}
+                      </p>
+                      <div className="ck-qty">
+                        <button type="button" onClick={() => alterarQtd(item.id, -1)}>-</button>
+                        <span>{item.qtd}</span>
+                        <button type="button" onClick={() => alterarQtd(item.id, 1)}>+</button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="ck-product-preco">
-                    <span className="ck-preco-total">{fmt(item.preco * item.qtd)}</span>
-                    <span className="ck-preco-unit">{fmt(item.preco)} / un.</span>
-                    <button className="ck-del" type="button" onClick={() => removerItem(item.id)}>
-                      <span className="material-symbols-outlined">delete_outline</span>
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
+                    <div className="ck-product-preco">
+                      <span className="ck-preco-total">{fmt(item.preco * item.qtd)}</span>
+                      <span className="ck-preco-unit">{fmt(item.preco)} / un.</span>
+                      <button className="ck-del" type="button" onClick={() => removerItem(item.id)}>
+                        <span className="material-symbols-outlined">delete_outline</span>
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           {/* ENDEREÇO */}
           <section className="ck-card">
