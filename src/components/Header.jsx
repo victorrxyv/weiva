@@ -136,7 +136,7 @@ export default function Header({ showBack = false }) {
           <Link to="/categoria?cat=cosmeticos">Cosméticos</Link>
           <Link to="/categoria?cat=vitaminas">Vitaminas</Link>
           <Link to="/categoria?cat=ofertas"><span className="material-symbols-outlined">shoppingmode</span> Ofertas</Link>
-          <Link to="/perfil"><span className="material-symbols-outlined">bookmark</span> Favoritos</Link>
+          <Link to="/perfil"><span className="material-symbols-outlined">favorite</span> Favoritos</Link>
           <Link to="/notificacoes" style={{ position: 'relative' }}>
             <span className="material-symbols-outlined">notifications_active</span> Notificações
             {naoLidas > 0 && <span className="notif-badge-nav">{naoLidas}</span>}
@@ -159,9 +159,8 @@ export default function Header({ showBack = false }) {
                 {naoLidas > 0 && <span className="notif-badge-menu">{naoLidas}</span>}
               </Link>
             </li>
-            <li><Link to="/categoria?cat=ofertas" onClick={closeMenu}><span className="material-symbols-outlined">shoppingmode</span> Ofertas do dia</Link></li>
             <li><Link to="/perfil" onClick={closeMenu}><span className="material-symbols-outlined">shopping_bag</span> Minhas Compras</Link></li>
-            <li><Link to="/perfil" onClick={closeMenu}><span className="material-symbols-outlined">bookmark</span> Favoritos</Link></li>
+            <li><Link to="/perfil" onClick={closeMenu}><span className="material-symbols-outlined">favorite</span> Favoritos</Link></li>
             <li><Link to="/categoria?cat=ofertas" onClick={closeMenu}><span className="material-symbols-outlined">shoppingmode</span> Ofertas</Link></li>
             <li><Link to="/categoria" onClick={closeMenu}><span className="material-symbols-outlined">shopping_bag_speed</span> Mais vendidos</Link></li>
             <hr />
