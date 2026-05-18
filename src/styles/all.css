@@ -1346,14 +1346,12 @@ button.login:hover { transform: scale(1.05); background: red; }
   }
 
   .resumo-col {
-    position: fixed !important;
+    position: fixed;
     bottom: 56px;
     left: 0;
     right: 0;
     z-index: 100;
     padding: 0 0 env(safe-area-inset-bottom);
-    width: 100%;
-    grid-column: 1 / -1;
   }
 
   .resumo-col .card.resumo-card {
