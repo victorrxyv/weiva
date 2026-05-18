@@ -8,8 +8,6 @@ import UsuarioPage from './pages/UsuarioPage.jsx'
 import FarmaciaPage from './pages/FarmaciaPage.jsx'
 import AdminPage from './pages/AdminPage.jsx'
 import NotificacoesPage from './pages/NotificacoesPage.jsx'
-import ParceiroBeneficiosPage from './pages/ParceiroBeneficiosPage.jsx'
-import ParceiroCadastroPage from './pages/ParceiroCadastroPage.jsx'
 import ProductPage from './pages/ProductPage.jsx'
 
 function App() {
@@ -25,8 +23,6 @@ function App() {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/notificacoes" element={<NotificacoesPage />} />
       <Route path="/produto" element={<ProductPage />} />
-      <Route path="/parceiro" element={<ParceiroBeneficiosPage />} />
-      <Route path="/parceiro/cadastro" element={<ParceiroCadastroPage />} />
     </Routes>
   )
 }

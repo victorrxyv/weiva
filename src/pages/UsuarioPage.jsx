@@ -21,6 +21,7 @@ const MENU = [
   { id: 'cartoes',    icon: 'credit_card',  label: 'Cartões' },
   { id: 'favoritos',  icon: 'favorite',     label: 'Favoritos' },
   { id: 'config',     icon: 'settings',     label: 'Configurações' },
+  { id: 'parceiro',   icon: 'storefront',   label: 'Seja um parceiro' },
 ]
 
 const [FORM_INIT] = [{ nome: '', sobrenome: '', email: '', cpf: '', genero: '', nascimento: '', telefone: '' }]
@@ -31,7 +32,9 @@ export default function UsuarioPage() {
   const [form, setForm]             = useState(FORM_INIT)
   const navigate = useNavigate()
 
-  const { favoritos, toggleFavorito } = useFavoritos()
+  const [parceiroCadastro, setParceiroCadastro] = useState(false)
+  const [parceiroForm, setParceiroForm]         = useState({})
+  const [parceiroEnviado, setParceiroEnviado]   = useState(false)
 
   function handleChange(e) { setForm(p => ({ ...p, [e.target.name]: e.target.value })) }
 
@@ -163,6 +166,103 @@ export default function UsuarioPage() {
       </div>
     )
 
+    if (s === 'parceiro') {
+      const CAMPOS = [
+        { name: 'nome',        label: 'Nome da farmácia',    type: 'text',  placeholder: 'Ex: Farmácia Central' },
+        { name: 'cnpj',        label: 'CNPJ',                type: 'text',  placeholder: '00.000.000/0001-00' },
+        { name: 'telefone',    label: 'Telefone / WhatsApp', type: 'tel',   placeholder: '(85) 9 9999-9999' },
+        { name: 'email',       label: 'E-mail',              type: 'email', placeholder: 'contato@farmacia.com' },
+        { name: 'endereco',    label: 'Endereço',            type: 'text',  placeholder: 'Rua, número, bairro' },
+        { name: 'cidade',      label: 'Cidade / Estado',     type: 'text',  placeholder: 'Ex: Tauá, CE' },
+        { name: 'responsavel', label: 'Responsável técnico', type: 'text',  placeholder: 'Nome do farmacêutico' },
+        { name: 'crf',         label: 'CRF',                 type: 'text',  placeholder: 'Número do CRF' },
+      ]
+      const BENEFICIOS = [
+        { icon: 'trending_up',    titulo: 'Mais vendas',       desc: 'Aumente seu alcance local e venda para clientes que ainda não conhecem sua farmácia.' },
+        { icon: 'local_shipping', titulo: 'Entregas rápidas',  desc: 'Infraestrutura de entrega já pronta. Você foca em vender, a gente cuida do resto.' },
+        { icon: 'payments',       titulo: 'Repasse rápido',    desc: 'Receba o valor das suas vendas em até 2 dias úteis, direto na conta da farmácia.' },
+        { icon: 'bar_chart',      titulo: 'Relatórios',        desc: 'Acompanhe vendas, pedidos e desempenho em tempo real pelo painel administrativo.' },
+      ]
+
+      if (parceiroEnviado) return (
+        <div className="up-content-inner">
+          <div className="parceiro-sucesso">
+            <span className="material-symbols-outlined parceiro-sucesso-icon">check_circle</span>
+            <h2>Cadastro enviado!</h2>
+            <p>Nossa equipe vai analisar suas informações e entrar em contato em até 2 dias úteis.</p>
+          </div>
+        </div>
+      )
+
+      if (parceiroCadastro) return (
+        <div className="up-content-inner">
+          <h2 className="up-content-title">Cadastro de farmácia</h2>
+          <p className="parceiro-sub">Preencha os dados abaixo e nossa equipe entrará em contato.</p>
+          <div className="parceiro-form">
+            {CAMPOS.map(c => (
+              <div key={c.name} className="parceiro-field">
+                <label>{c.label}</label>
+                <input
+                  type={c.type}
+                  name={c.name}
+                  placeholder={c.placeholder}
+                  value={parceiroForm[c.name] ?? ''}
+                  onChange={e => setParceiroForm(p => ({ ...p, [e.target.name]: e.target.value }))}
+                />
+              </div>
+            ))}
+            <div className="parceiro-field">
+              <label>Horário de funcionamento</label>
+              <textarea
+                name="horario"
+                placeholder="Ex: Seg–Sex 8h–20h, Sáb 8h–14h"
+                rows={3}
+                value={parceiroForm.horario ?? ''}
+                onChange={e => setParceiroForm(p => ({ ...p, horario: e.target.value }))}
+              />
+            </div>
+            <button className="parceiro-btn" onClick={() => setParceiroEnviado(true)}>
+              <span className="material-symbols-outlined">send</span>
+              Enviar cadastro
+            </button>
+            <button className="parceiro-btn-voltar" onClick={() => setParceiroCadastro(false)}>
+              Voltar
+            </button>
+          </div>
+        </div>
+      )
+
+      return (
+        <div className="up-content-inner">
+          <div className="parceiro-hero">
+            <img src="/img/weiva/icon.png" alt="Weiva" className="parceiro-hero-icon" />
+            <h1>Cadastre sua farmácia na Weiva!</h1>
+            <p>Leve seus produtos a milhares de clientes na região. Rápido, simples e sem burocracia.</p>
+          </div>
+          <div className="parceiro-beneficios">
+            {BENEFICIOS.map((b, i) => (
+              <div key={i} className="parceiro-card">
+                <div className="parceiro-card-icon">
+                  <span className="material-symbols-outlined">{b.icon}</span>
+                </div>
+                <div>
+                  <p className="parceiro-card-titulo">{b.titulo}</p>
+                  <p className="parceiro-card-desc">{b.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="parceiro-cta">
+            <button className="parceiro-btn" onClick={() => setParceiroCadastro(true)}>
+              <span className="material-symbols-outlined">storefront</span>
+              Quero ser parceiro
+            </button>
+            <p className="parceiro-cta-sub">Gratuito para começar. Sem taxas de adesão.</p>
+          </div>
+        </div>
+      )
+    }
+
     return null
   }
 
@@ -191,7 +291,7 @@ export default function UsuarioPage() {
           </button>
         ))}
         <p className="perfil-grupo-label">NEGÓCIOS</p>
-        <button className="perfil-item destaque" onClick={() => navigate('/parceiro')}>
+        <button className="perfil-item destaque" onClick={() => { setMobileSub('parceiro'); setSecao('parceiro') }}>
           <span className="material-symbols-outlined perfil-item-icon">storefront</span>
           <span className="perfil-item-label">Seja um parceiro</span>
           <span className="material-symbols-outlined perfil-chevron">chevron_right</span>
@@ -255,7 +355,7 @@ export default function UsuarioPage() {
               </button>
             ))}
             <hr className="up-sidebar-hr" />
-            <button className="up-sidebar-item destaque" onClick={() => navigate('/parceiro')}>
+            <button className="up-sidebar-item destaque" onClick={() => { setMobileSub('parceiro'); setSecao('parceiro') }}>
               <span className="material-symbols-outlined">storefront</span>
               Seja um parceiro
             </button>
