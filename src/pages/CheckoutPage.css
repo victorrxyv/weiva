@@ -299,19 +299,21 @@
   box-shadow: inset 0 0 0 3px white;
 }
 
-.ck-pix-icon {
-  font-size: 11px;
-  font-weight: 900;
-  color: #32bcad;
-  background: #e6faf8;
-  border-radius: 6px;
-  padding: 4px 7px;
-  letter-spacing: 0.5px;
+/* ── ícones coloridos ── */
+.ck-pay-icon {
+  font-size: 24px !important;
 }
 
-.ck-pay-icon {
-  font-size: 22px !important;
-  color: #555;
+.ck-pay-icon--credit {
+  color: #1a56db; /* azul cartão de crédito */
+}
+
+.ck-pay-icon--debit {
+  color: #7c3aed; /* roxo cartão de débito */
+}
+
+.ck-pay-icon--cash {
+  color: #16a34a; /* verde dinheiro */
 }
 
 .ck-pay-label {
@@ -334,9 +336,11 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #eee;
+  margin-top: 10px;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1.5px solid #eee;
 }
 
 /* ── resumo ── */
@@ -411,8 +415,8 @@
   top: 80px;
 }
 
-/* resumo mobile — escondido no desktop */
-.ck-resumo-mobile {
+/* ── resumo mobile sticky (oculto no desktop) ── */
+.ck-resumo-mobile-sticky {
   display: none;
 }
 
@@ -422,14 +426,77 @@
 @media (max-width: 768px) {
   .ck-page {
     grid-template-columns: 1fr;
-    padding: 16px 12px 100px;
+    padding: 16px 12px 200px;
   }
 
   /* esconde sidebar desktop */
   .ck-resumo-desktop { display: none; }
 
-  /* mostra resumo mobile no final da coluna */
-  .ck-resumo-mobile { display: block; }
+  /* resumo mobile sticky na parte inferior */
+  .ck-resumo-mobile-sticky {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fff;
+    border-top: 2px solid #eee;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .ck-resumo-mobile-details {
+    padding: 0;
+  }
+
+  .ck-resumo-mobile-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .ck-resumo-mobile-summary::-webkit-details-marker { display: none; }
+
+  .ck-resumo-mobile-summary-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    font-size: 14px;
+    font-weight: 800;
+    color: #111;
+  }
+
+  .ck-resumo-mobile-summary-left .material-symbols-outlined {
+    font-size: 20px;
+    color: var(--red);
+  }
+
+  .ck-resumo-mobile-total {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--red);
+  }
+
+  .ck-resumo-chevron {
+    font-size: 20px;
+    color: #aaa;
+    transition: transform 0.2s;
+  }
+
+  details[open] .ck-resumo-chevron {
+    transform: rotate(180deg);
+  }
+
+  .ck-resumo-mobile-body {
+    padding: 0 16px 16px;
+    border-top: 1px solid #eee;
+  }
 
   .ck-field-group { grid-template-columns: 1fr; }
 
