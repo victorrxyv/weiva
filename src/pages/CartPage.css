@@ -71,6 +71,27 @@
   border-bottom: 1px solid #eee;
 }
 
+.cp-farm-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 100%;
+  object-fit: contain;
+  border: 1px solid #eee;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.cp-farm-logo-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--red);
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
 .cp-farm-nome {
   font-size: 14px;
   font-weight: 700;

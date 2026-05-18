@@ -10,8 +10,8 @@ function fmt(v) {
 }
 
 const FARMACIAS = [
-  { id: 1, nome: 'Pague Menos', local: 'Fortaleza, CE' },
-  { id: 2, nome: 'Drogasil',    local: 'Fortaleza, CE' },
+  { id: 1, nome: 'Pague Menos', local: 'Fortaleza, CE', logo: '/img/farmacias/paguemenos.png' },
+  { id: 2, nome: 'Drogasil',    local: 'Fortaleza, CE', logo: null },
 ]
 
 export default function CartPage() {
@@ -135,6 +135,10 @@ export default function CartPage() {
                       />
                       <span className="cp-check-box" />
                     </label>
+                    {farm.logo
+                      ? <img className="cp-farm-logo" src={farm.logo} alt={farm.nome} />
+                      : <div className="cp-farm-logo cp-farm-logo-fallback">{farm.nome.charAt(0)}</div>
+                    }
                     <div>
                       <p className="cp-farm-nome">{farm.nome}</p>
                       <p className="cp-farm-loc">
