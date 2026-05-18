@@ -3,10 +3,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import { useCart } from '../contexts/CartContext.jsx'
 import NavMobileBottom from '../components/NavMobileBottom.jsx'
+import './CheckoutPage.css'
 
 function fmt(v) {
   return `R$ ${v.toFixed(2).replace('.', ',')}`
 }
+
+const PAGAMENTOS = [
+  { id: 'pix',     label: 'PIX',               badge: 'Aprovacao instantanea', icon: null,           iconType: 'pix'    },
+  { id: 'credit',  label: 'Cartao de Credito',  badge: null,                    icon: 'credit_card',  iconType: 'mat'    },
+  { id: 'dinheiro',label: 'Dinheiro (na entrega)', badge: null,                 icon: 'payments',     iconType: 'mat'    },
+]
 
 export default function CheckoutPage() {
   const { cartItems, alterarQtd, removerItem, subtotal, descontos, entregaTotal, total } = useCart()
@@ -15,6 +22,8 @@ export default function CheckoutPage() {
   const [pagamento, setPagamento] = useState('pix')
   const [enderecoAberto, setEnderecoAberto] = useState(false)
   const [endereco, setEndereco] = useState({ cep: '', numero: '', rua: '', complemento: '', bairro: '', cidade: '', estado: '' })
+
+  const totalItens = cartItems.reduce((s, i) => s + i.qtd, 0)
 
   function formatCEP(val) {
     let v = val.replace(/\D/g, '').slice(0, 8)
@@ -27,51 +36,80 @@ export default function CheckoutPage() {
     setEndereco(prev => ({ ...prev, [name]: name === 'cep' ? formatCEP(value) : value }))
   }
 
-  function handleFinalize(e) {
-    e.preventDefault()
-    alert('Pedido realizado com sucesso! 🎉')
+  function handleFinalize() {
+    alert('Pedido realizado com sucesso!')
     navigate('/')
   }
+
+  const Resumo = () => (
+    <>
+      <div className="ck-resumo-rows">
+        <div className="ck-resumo-row">
+          <span>Subtotal</span>
+          <span>{fmt(subtotal)}</span>
+        </div>
+        {descontos > 0 && (
+          <div className="ck-resumo-row ck-green">
+            <span>Desconto</span>
+            <span>- {fmt(descontos)}</span>
+          </div>
+        )}
+        <div className="ck-resumo-row">
+          <span>Taxa de entrega</span>
+          <span className={entregaTotal === 0 ? 'ck-green' : ''}>{entregaTotal === 0 ? 'Gratis' : fmt(entregaTotal)}</span>
+        </div>
+        <hr className="ck-hr" />
+        <div className="ck-resumo-row ck-total">
+          <strong>Total</strong>
+          <strong className="ck-total-valor">{fmt(total)}</strong>
+        </div>
+      </div>
+      <button className="ck-btn-confirmar" onClick={handleFinalize}>
+        <span className="material-symbols-outlined">check_circle</span>
+        Confirmar Pedido
+      </button>
+      <p className="ck-seguranca">
+        <span className="material-symbols-outlined">lock</span>
+        Pagamento seguro e criptografado
+      </p>
+    </>
+  )
 
   return (
     <>
       <Header showBack />
 
-      <div className="checkout-page">
-        <div className="checkout-left">
+      <div className="ck-page">
+        <div className="ck-left">
 
           {/* PRODUTOS */}
-          <section className="checkout-card" aria-labelledby="products-heading">
-            <div className="card-head">
-              <h2 className="card-title" id="products-heading">
+          <section className="ck-card">
+            <div className="ck-card-head">
+              <div className="ck-card-title">
                 <span className="material-symbols-outlined">shopping_bag</span>
-                Itens do Pedido
-              </h2>
+                Produtos Selecionados
+              </div>
+              <span className="ck-badge">{totalItens} {totalItens === 1 ? 'item' : 'itens'}</span>
             </div>
-            <ul className="product-list">
+            <ul className="ck-product-list">
               {cartItems.map(item => (
-                <li key={item.id} className="product-item">
-                  <img className="product-img" src={item.img} alt={item.nome} />
-                  <div className="product-details">
-                    <span className="product-brand">{item.marca}</span>
-                    <span className="product-name">{item.nome}</span>
-                    <span className="product-dosage">{item.dosagem}</span>
-                    <div className="product-controls">
-                      <div className="qty-control">
-                        <button className="qty-btn" type="button" onClick={() => alterarQtd(item.id, -1)}>−</button>
-                        <span className="qty-value">{item.qtd}</span>
-                        <button className="qty-btn" type="button" onClick={() => alterarQtd(item.id, 1)}>+</button>
-                      </div>
+                <li key={item.id} className="ck-product-item">
+                  <img className="ck-product-img" src={item.img} alt={item.nome} />
+                  <div className="ck-product-info">
+                    <p className="ck-product-nome">{item.nome}</p>
+                    <p className="ck-product-sub">
+                      {item.dosagem} · {item.marca}
+                    </p>
+                    <div className="ck-qty">
+                      <button type="button" onClick={() => alterarQtd(item.id, -1)}>-</button>
+                      <span>{item.qtd}</span>
+                      <button type="button" onClick={() => alterarQtd(item.id, 1)}>+</button>
                     </div>
                   </div>
-                  <div className="product-price-col">
-                    <span className="product-price">{fmt(item.preco * item.qtd)}</span>
-                    <span className="product-unit-price">{fmt(item.preco)} / un.</span>
-                    <button
-                      className="product-remove" type="button"
-                      aria-label="Remover produto"
-                      onClick={() => removerItem(item.id)}
-                    >
+                  <div className="ck-product-preco">
+                    <span className="ck-preco-total">{fmt(item.preco * item.qtd)}</span>
+                    <span className="ck-preco-unit">{fmt(item.preco)} / un.</span>
+                    <button className="ck-del" type="button" onClick={() => removerItem(item.id)}>
                       <span className="material-symbols-outlined">delete_outline</span>
                     </button>
                   </div>
@@ -80,187 +118,143 @@ export default function CheckoutPage() {
             </ul>
           </section>
 
-          {/* ENDEREÇO */}
-          <section className="checkout-card" aria-labelledby="address-heading">
-            <div className="card-head">
-              <h2 className="card-title" id="address-heading">
+          {/* ENDERECO */}
+          <section className="ck-card">
+            <div className="ck-card-head">
+              <div className="ck-card-title">
                 <span className="material-symbols-outlined">local_shipping</span>
-                Endereço de Entrega
-              </h2>
+                Endereco de Entrega
+              </div>
             </div>
-            <div className="card-body-checkout">
-              <button
-                className="card-action" type="button"
-                onClick={() => setEnderecoAberto(v => !v)}
-                aria-expanded={enderecoAberto}
-              >
-                <span className="material-symbols-outlined">add_location_alt</span>
-                {enderecoAberto ? 'Cancelar' : 'Novo endereço'}
-              </button>
+            <button
+              className="ck-novo-endereco"
+              type="button"
+              onClick={() => setEnderecoAberto(v => !v)}
+            >
+              <span className="material-symbols-outlined">add_location_alt</span>
+              {enderecoAberto ? 'Cancelar' : 'Novo endereco'}
+            </button>
 
-              {enderecoAberto && (
-                <form className="address-form" onSubmit={e => { e.preventDefault(); setEnderecoAberto(false) }}>
-                  <div className="field-group">
-                    <div className="field">
-                      <label htmlFor="cep-input">CEP *</label>
-                      <input type="text" id="cep-input" name="cep"
-                        placeholder="00000-000" maxLength={9} inputMode="numeric"
-                        value={endereco.cep} onChange={handleEndereco} required />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="numero-input">Número *</label>
-                      <input type="text" id="numero-input" name="numero"
-                        placeholder="142" inputMode="numeric"
-                        value={endereco.numero} onChange={handleEndereco} required />
-                    </div>
+            {enderecoAberto && (
+              <form className="ck-address-form" onSubmit={e => { e.preventDefault(); setEnderecoAberto(false) }}>
+                <div className="ck-field-group">
+                  <div className="ck-field">
+                    <label>CEP *</label>
+                    <input type="text" name="cep" placeholder="00000-000" maxLength={9} inputMode="numeric" value={endereco.cep} onChange={handleEndereco} required />
                   </div>
-                  <div className="field">
-                    <label htmlFor="rua-input">Rua *</label>
-                    <input type="text" id="rua-input" name="rua"
-                      placeholder="Rua das Flores"
-                      value={endereco.rua} onChange={handleEndereco} required />
+                  <div className="ck-field">
+                    <label>Numero *</label>
+                    <input type="text" name="numero" placeholder="142" inputMode="numeric" value={endereco.numero} onChange={handleEndereco} required />
                   </div>
-                  <div className="field-group">
-                    <div className="field">
-                      <label htmlFor="complemento-input">Complemento</label>
-                      <input type="text" id="complemento-input" name="complemento"
-                        placeholder="Apto 301"
-                        value={endereco.complemento} onChange={handleEndereco} />
-                    </div>
-                    <div className="field">
-                      <label htmlFor="bairro-input">Bairro *</label>
-                      <input type="text" id="bairro-input" name="bairro"
-                        placeholder="Meireles"
-                        value={endereco.bairro} onChange={handleEndereco} required />
-                    </div>
+                </div>
+                <div className="ck-field">
+                  <label>Rua *</label>
+                  <input type="text" name="rua" placeholder="Rua das Flores" value={endereco.rua} onChange={handleEndereco} required />
+                </div>
+                <div className="ck-field-group">
+                  <div className="ck-field">
+                    <label>Complemento</label>
+                    <input type="text" name="complemento" placeholder="Apto 301" value={endereco.complemento} onChange={handleEndereco} />
                   </div>
-                  <div className="field-group">
-                    <div className="field">
-                      <label htmlFor="cidade-input">Cidade *</label>
-                      <input type="text" id="cidade-input" name="cidade"
-                        placeholder="Fortaleza"
-                        value={endereco.cidade} onChange={handleEndereco} required />
-                    </div>
-                    <div className="field" style={{ maxWidth: 100 }}>
-                      <label htmlFor="estado-input">Estado *</label>
-                      <input type="text" id="estado-input" name="estado"
-                        placeholder="CE" maxLength={2}
-                        value={endereco.estado} onChange={handleEndereco} required />
-                    </div>
+                  <div className="ck-field">
+                    <label>Bairro *</label>
+                    <input type="text" name="bairro" placeholder="Meireles" value={endereco.bairro} onChange={handleEndereco} required />
                   </div>
-                  <button className="btn-red" type="submit">
-                    <span className="material-symbols-outlined">save</span>
-                    Salvar Endereço
-                  </button>
-                </form>
-              )}
-            </div>
+                </div>
+                <div className="ck-field-group">
+                  <div className="ck-field">
+                    <label>Cidade *</label>
+                    <input type="text" name="cidade" placeholder="Fortaleza" value={endereco.cidade} onChange={handleEndereco} required />
+                  </div>
+                  <div className="ck-field" style={{ maxWidth: 100 }}>
+                    <label>Estado *</label>
+                    <input type="text" name="estado" placeholder="CE" maxLength={2} value={endereco.estado} onChange={handleEndereco} required />
+                  </div>
+                </div>
+                <button className="ck-btn-salvar" type="submit">
+                  <span className="material-symbols-outlined">save</span>
+                  Salvar Endereco
+                </button>
+              </form>
+            )}
           </section>
 
           {/* PAGAMENTO */}
-          <section className="checkout-card" aria-labelledby="payment-heading">
-            <div className="card-head">
-              <h2 className="card-title" id="payment-heading">
+          <section className="ck-card">
+            <div className="ck-card-head">
+              <div className="ck-card-title">
                 <span className="material-symbols-outlined">credit_card</span>
                 Forma de Pagamento
-              </h2>
-            </div>
-            <div className="card-body-checkout">
-              <div className="payment-options">
-                <label className={`payment-option ${pagamento === 'pix' ? 'selected' : ''}`} onClick={() => setPagamento('pix')}>
-                  <input type="radio" name="pagamento" value="pix" readOnly checked={pagamento === 'pix'} />
-                  <img src="https://cnt.recarga.com/landingfiles/photos/logo-pix-significa.png" alt="Pix" />
-                  <p className="payment-label">PIX</p>
-                  <span className="pay-badge">Aprovação instantânea</span>
-                </label>
-
-                <label className={`payment-option ${pagamento === 'credit' ? 'selected' : ''}`} onClick={() => setPagamento('credit')}>
-                  <input type="radio" name="pagamento" value="credit" readOnly checked={pagamento === 'credit'} />
-                  <span className="material-symbols-outlined pay-icon">credit_card</span>
-                  <p className="payment-label">Cartão de Crédito</p>
-                  <span className="pay-badge">Até 6x sem juros</span>
-                </label>
-
-                <label className={`payment-option ${pagamento === 'debit' ? 'selected' : ''}`} onClick={() => setPagamento('debit')}>
-                  <input type="radio" name="pagamento" value="debit" readOnly checked={pagamento === 'debit'} />
-                  <span className="material-symbols-outlined pay-icon">credit_score</span>
-                  <p className="payment-label">Cartão de Débito</p>
-                </label>
               </div>
+            </div>
+            <div className="ck-pagamento-list">
+              {PAGAMENTOS.map(op => (
+                <label
+                  key={op.id}
+                  className={`ck-pagamento-opt${pagamento === op.id ? ' ativo' : ''}`}
+                  onClick={() => setPagamento(op.id)}
+                >
+                  <input type="radio" name="pagamento" readOnly checked={pagamento === op.id} />
+                  <div className="ck-radio-dot" />
+                  {op.iconType === 'pix'
+                    ? <span className="ck-pix-icon">PIX</span>
+                    : <span className="material-symbols-outlined ck-pay-icon">{op.icon}</span>
+                  }
+                  <span className="ck-pay-label">{op.label}</span>
+                  {op.badge && <span className="ck-pay-badge">{op.badge}</span>}
+                </label>
+              ))}
+            </div>
 
-              {pagamento === 'credit' && (
-                <div className="card-form">
-                  <div className="field">
-                    <label>Número do cartão</label>
-                    <input type="text" placeholder="0000 0000 0000 0000" maxLength={19} />
+            {pagamento === 'credit' && (
+              <div className="ck-card-form">
+                <div className="ck-field">
+                  <label>Numero do cartao</label>
+                  <input type="text" placeholder="0000 0000 0000 0000" maxLength={19} />
+                </div>
+                <div className="ck-field">
+                  <label>Nome no cartao</label>
+                  <input type="text" placeholder="NOME SOBRENOME" />
+                </div>
+                <div className="ck-field-group">
+                  <div className="ck-field">
+                    <label>Validade</label>
+                    <input type="text" placeholder="MM/AA" maxLength={5} />
                   </div>
-                  <div className="field">
-                    <label>Nome no cartão</label>
-                    <input type="text" placeholder="NOME SOBRENOME" />
-                  </div>
-                  <div className="field-group">
-                    <div className="field">
-                      <label>Validade</label>
-                      <input type="text" placeholder="MM/AA" maxLength={5} />
-                    </div>
-                    <div className="field">
-                      <label>CVV</label>
-                      <input type="text" placeholder="000" maxLength={4} />
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label>Parcelas</label>
-                    <select>
-                      {[1, 2, 3, 6].map(n => (
-                        <option key={n}>
-                          {n}x de {fmt(total / n)} {n === 1 ? '' : 'sem juros'}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="ck-field">
+                    <label>CVV</label>
+                    <input type="text" placeholder="000" maxLength={4} />
                   </div>
                 </div>
-              )}
-            </div>
-          </section>
-        </div>
-
-        {/* RESUMO */}
-        <aside className="checkout-resumo">
-          <div className="checkout-card resumo-card">
-            <h2 className="card-title">
-              <span className="material-symbols-outlined">receipt_long</span>
-              Resumo
-            </h2>
-
-            <div className="resumo-linha">
-              <span>Subtotal</span>
-              <span>{fmt(subtotal)}</span>
-            </div>
-            {descontos > 0 && (
-              <div className="resumo-linha green">
-                <span>Descontos</span>
-                <span>− {fmt(descontos)}</span>
               </div>
             )}
-            <div className="resumo-linha">
-              <span>Entrega</span>
-              <span>{entregaTotal === 0 ? 'Grátis' : fmt(entregaTotal)}</span>
-            </div>
-            <hr className="resumo-hr" />
-            <div className="resumo-linha total">
-              <strong>Total</strong>
-              <strong>{fmt(total)}</strong>
-            </div>
+          </section>
 
-            <button className="btn-finalizar" onClick={handleFinalize}>
-              <span className="material-symbols-outlined">check_circle</span>
-              Finalizar pedido
-            </button>
+          {/* RESUMO MOBILE — dentro do fluxo, abaixo dos cards */}
+          <section className="ck-card ck-resumo-mobile">
+            <div className="ck-card-head">
+              <div className="ck-card-title">
+                <span className="material-symbols-outlined">receipt_long</span>
+                Resumo do Pedido
+              </div>
+              <span className="ck-badge">{totalItens} {totalItens === 1 ? 'item' : 'itens'}</span>
+            </div>
+            <Resumo />
+          </section>
 
-            <p className="seguranca">
-              <span className="material-symbols-outlined">lock</span>
-              Compra 100% segura
-            </p>
+        </div>
+
+        {/* RESUMO DESKTOP */}
+        <aside className="ck-resumo-desktop">
+          <div className="ck-card">
+            <div className="ck-card-head">
+              <div className="ck-card-title">
+                <span className="material-symbols-outlined">receipt_long</span>
+                Resumo do Pedido
+              </div>
+              <span className="ck-badge">{totalItens} {totalItens === 1 ? 'item' : 'itens'}</span>
+            </div>
+            <Resumo />
           </div>
         </aside>
       </div>
