@@ -564,7 +564,7 @@
   /* layout vira coluna única, com espaço no bottom para o painel fixo */
   .cp-layout {
     grid-template-columns: 1fr;
-    padding: 16px 12px 110px;
+    padding: 16px 12px 160px;
     gap: 16px;
   }
 
