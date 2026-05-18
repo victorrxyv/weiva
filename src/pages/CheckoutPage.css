@@ -300,6 +300,12 @@
 }
 
 /* ── ícones coloridos ── */
+.ck-pix-img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+}
+
 .ck-pay-icon {
   font-size: 24px !important;
 }
