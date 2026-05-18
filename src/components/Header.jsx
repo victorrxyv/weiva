@@ -159,7 +159,7 @@ export default function Header({ showBack = false }) {
                 {naoLidas > 0 && <span className="notif-badge-menu">{naoLidas}</span>}
               </Link>
             </li>
-            <li><Link to="/categoria" onClick={closeMenu}><span className="material-symbols-outlined">shoppingmode</span> Ofertas do dia</Link></li>
+            <li><Link to="/categoria?cat=ofertas" onClick={closeMenu}><span className="material-symbols-outlined">shoppingmode</span> Ofertas do dia</Link></li>
             <li><Link to="/perfil" onClick={closeMenu}><span className="material-symbols-outlined">shopping_bag</span> Minhas Compras</Link></li>
             <li><Link to="/perfil" onClick={closeMenu}><span className="material-symbols-outlined">bookmark</span> Favoritos</Link></li>
             <li><Link to="/farmacia" onClick={closeMenu}><span className="material-symbols-outlined">store</span> Farmácias</Link></li>

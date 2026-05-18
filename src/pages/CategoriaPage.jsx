@@ -6,6 +6,7 @@ import NavMobileBottom from '../components/NavMobileBottom.jsx'
 
 const CHIPS = [
   { id: 'todos',        label: 'Todos',        icon: 'dashboard' },
+  { id: 'ofertas',      label: 'Ofertas',      icon: 'local_fire_department' },
   { id: 'analgésicos',  label: 'Analgésicos',  icon: 'medication' },
   { id: 'antibióticos', label: 'Antibióticos', icon: 'vaccines' },
   { id: 'vitaminas',    label: 'Vitaminas',    icon: 'nutrition' },
