@@ -3961,9 +3961,11 @@ button.login:hover { transform: scale(1.05); background: red; }
 
 @media (max-width: 768px) {
   .up-fav-grid {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
   .up-fav-grid .prod-card {
-    width: 155px;
+    width: 100%;
   }
 }
