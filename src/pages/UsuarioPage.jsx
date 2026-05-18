@@ -291,7 +291,7 @@ export default function UsuarioPage() {
           </button>
         ))}
         <p className="perfil-grupo-label">NEGÓCIOS</p>
-        <button className="perfil-item destaque" onClick={() => { setMobileSub('parceiro'); setSecao('parceiro') }}>
+        <button className="perfil-item destaque" onClick={() => setMobileSub('parceiro')}>
           <span className="material-symbols-outlined perfil-item-icon">storefront</span>
           <span className="perfil-item-label">Seja um parceiro</span>
           <span className="material-symbols-outlined perfil-chevron">chevron_right</span>
@@ -355,7 +355,7 @@ export default function UsuarioPage() {
               </button>
             ))}
             <hr className="up-sidebar-hr" />
-            <button className="up-sidebar-item destaque" onClick={() => { setMobileSub('parceiro'); setSecao('parceiro') }}>
+            <button className="up-sidebar-item destaque" onClick={() => setSecao('parceiro')}>
               <span className="material-symbols-outlined">storefront</span>
               Seja um parceiro
             </button>
