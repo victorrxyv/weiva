@@ -58,7 +58,7 @@
   .farmacias-list {
     flex-wrap: nowrap !important;
     overflow-x: auto;
-    padding-bottom: 20px;
+    margin-bottom: 40px; /* deixar por enquanto */
   }
   .farmacia-card { flex: 0 0 110px; flex-shrink: 0; }
 }
