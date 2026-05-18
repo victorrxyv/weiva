@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../contexts/CartContext.jsx'
+import { useFavoritos } from '../contexts/FavoritosContext.jsx'
 
 export default function ProductCard({
   id = 99,
@@ -15,11 +16,14 @@ export default function ProductCard({
   to = '/produto',
 }) {
   const { addItem } = useCart()
+  const { toggleFavorito, isFavorito } = useFavoritos()
   const [adicionado, setAdicionado] = useState(false)
 
   const desconto = precoOriginal
     ? Math.round((1 - preco / precoOriginal) * 100)
     : null
+
+  const favorito = isFavorito(id)
 
   function handleAdd(e) {
     e.preventDefault()
@@ -28,6 +32,12 @@ export default function ProductCard({
     addItem({ id, img, marca, nome, dosagem, preco, precoOriginal, farmacia })
     setAdicionado(true)
     setTimeout(() => setAdicionado(false), 2000)
+  }
+
+  function handleFavorito(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    toggleFavorito({ id, img, marca, nome, dosagem, preco, precoOriginal, farmacia, receita })
   }
 
   return (
@@ -43,6 +53,16 @@ export default function ProductCard({
               <span className="material-symbols-outlined">info</span> Receita
             </p>
           )}
+          {/* Botão favorito no canto superior direito */}
+          <button
+            className={`btn-card-fav ${favorito ? 'ativo' : ''}`}
+            onClick={handleFavorito}
+            aria-label={favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+          >
+            <span className="material-symbols-outlined">
+              {favorito ? 'favorite' : 'favorite_border'}
+            </span>
+          </button>
         </div>
 
         <div className="card-body">
@@ -76,7 +96,7 @@ export default function ProductCard({
           </button>
         </div>
 
-        {/* TOAST "Adicionado ao carrinho" */}
+        {/* TOAST */}
         <div className={`card-toast ${adicionado ? 'card-toast-show' : ''}`}>
           <span className="material-symbols-outlined">check_circle</span>
           Adicionado ao carrinho

@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useFavoritos } from '../contexts/FavoritosContext.jsx'
+import ProductCard from '../components/ProductCard.jsx'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import NavMobileBottom from '../components/NavMobileBottom.jsx'
@@ -16,6 +19,7 @@ const MENU = [
   { id: 'enderecos',  icon: 'location_on',  label: 'Endereço' },
   { id: 'pedidos',    icon: 'receipt_long', label: 'Pedidos' },
   { id: 'cartoes',    icon: 'credit_card',  label: 'Cartões' },
+  { id: 'favoritos',  icon: 'favorite',     label: 'Favoritos' },
   { id: 'config',     icon: 'settings',     label: 'Configurações' },
 ]
 
@@ -26,6 +30,8 @@ export default function UsuarioPage() {
   const [mobileSub, setMobileSub]   = useState(null) // null = lista mobile principal
   const [form, setForm]             = useState(FORM_INIT)
   const navigate = useNavigate()
+
+  const { favoritos, toggleFavorito } = useFavoritos()
 
   function handleChange(e) { setForm(p => ({ ...p, [e.target.name]: e.target.value })) }
 
@@ -110,6 +116,27 @@ export default function UsuarioPage() {
           </div>
         ))}
         <button className="up-adicionar-btn"><span className="material-symbols-outlined">add_card</span> Adicionar novo cartão</button>
+      </div>
+    )
+
+
+    if (s === 'favoritos') return (
+      <div className="up-content-inner">
+        <h2 className="up-content-title">Favoritos</h2>
+        {favoritos.length === 0 ? (
+          <div className="up-fav-empty">
+            <span className="material-symbols-outlined up-fav-empty-icon">favorite_border</span>
+            <p className="up-fav-empty-title">Nenhum favorito ainda</p>
+            <p className="up-fav-empty-sub">Toque no coração de qualquer produto para salvá-lo aqui.</p>
+            <Link to="/categoria" className="up-fav-btn">Explorar produtos</Link>
+          </div>
+        ) : (
+          <div className="up-fav-grid">
+            {favoritos.map(p => (
+              <ProductCard key={p.id} {...p} />
+            ))}
+          </div>
+        )}
       </div>
     )
 

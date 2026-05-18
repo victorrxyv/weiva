@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header.jsx'
 import { useCart } from '../contexts/CartContext.jsx'
+import { useFavoritos } from '../contexts/FavoritosContext.jsx'
 
 const PRODUTO = {
   id: 99,
@@ -17,8 +18,9 @@ const PRODUTO = {
 
 export default function ProductPage() {
   const [qtd, setQtd] = useState(1)
-  const [favoritado, setFavoritado] = useState(false)
   const [adicionado, setAdicionado] = useState(false)
+  const { toggleFavorito, isFavorito } = useFavoritos()
+  const favoritado = isFavorito(PRODUTO.id)
   const { addItem } = useCart()
 
   const desconto = Math.round((1 - PRODUTO.preco / PRODUTO.precoOriginal) * 100)
@@ -50,7 +52,7 @@ export default function ProductPage() {
             <div className="div-btn-fav">
               <button
                 className={`btn-fav ${favoritado ? 'ativo' : ''}`}
-                onClick={() => setFavoritado(v => !v)}
+                onClick={() => toggleFavorito(PRODUTO)}
                 aria-pressed={favoritado}
                 aria-label="Favoritar produto"
               >
