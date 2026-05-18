@@ -21,7 +21,6 @@ const MENU = [
   { id: 'cartoes',    icon: 'credit_card',  label: 'Cartões' },
   { id: 'favoritos',  icon: 'favorite',     label: 'Favoritos' },
   { id: 'config',     icon: 'settings',     label: 'Configurações' },
-  { id: 'parceiro',   icon: 'storefront',   label: 'Seja um parceiro' },
 ]
 
 const [FORM_INIT] = [{ nome: '', sobrenome: '', email: '', cpf: '', genero: '', nascimento: '', telefone: '' }]
@@ -35,6 +34,7 @@ export default function UsuarioPage() {
   const [parceiroCadastro, setParceiroCadastro] = useState(false)
   const [parceiroForm, setParceiroForm]         = useState({})
   const [parceiroEnviado, setParceiroEnviado]   = useState(false)
+  const { favoritos } = useFavoritos()
 
   function handleChange(e) { setForm(p => ({ ...p, [e.target.name]: e.target.value })) }
 
