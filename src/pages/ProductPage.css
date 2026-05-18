@@ -50,6 +50,7 @@
 }
 
 .btn-fav.ativo { color: var(--red); }
+.btn-fav.ativo .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
 
 .prod-marca-prod {
   font-size: 12px; font-weight: 700;

@@ -56,7 +56,7 @@ export default function ProductPage() {
                 aria-pressed={favoritado}
                 aria-label="Favoritar produto"
               >
-                <i className={`fa-${favoritado ? 'solid' : 'regular'} fa-bookmark`} />
+                <span className="material-symbols-outlined">favorite</span>
               </button>
             </div>
 
@@ -156,14 +156,14 @@ export default function ProductPage() {
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" />
               </div>
               <div className="pagamento-metodo" style={{ marginTop: '10px' }}>
-                <i className="fa-solid fa-qrcode pagamento-icon"></i>
+                <span className="material-symbols-outlined pagamento-icon">qr_code_2</span>
                 <span>PIX</span>
               </div>
               <div className="pagamento-bandeiras">
                 <img src="https://cnt.recarga.com/landingfiles/photos/logo-pix-significa.png" alt="PIX" />
               </div>
               <div className="pagamento-metodo" style={{ marginTop: '10px' }}>
-                <i className="fa-solid fa-barcode pagamento-icon"></i>
+                <span className="material-symbols-outlined pagamento-icon">barcode</span>
                 <span>Boleto Bancário</span>
               </div>
               <div className="pagamento-bandeiras">
